@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- 基础配置：允许明文流量(用于本地SOCKS5代理)，信任系统和用户证书 -->
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <!-- 信任系统预装的CA证书 -->
+            <certificates src="system" />
+            <!-- 信任用户安装的CA证书(用于调试和企业环境) -->
+            <certificates src="user" />
+        </trust-anchors>
+    </base-config>
+
+    <!-- 域名特定配置 -->
+    <domain-config cleartextTrafficPermitted="true">
+        <!-- 本地SOCKS5代理(允许明文) -->
+        <domain includeSubdomains="false">localhost</domain>
+        <domain includeSubdomains="false">127.0.0.1</domain>
+        <domain includeSubdomains="false">::1</domain>
+    </domain-config>
+
+    <!-- 调试配置(Release版本应该移除) -->
+    <debug-overrides>
+        <trust-anchors>
+            <!-- 调试时信任所有证书 -->
+            <certificates src="system" />
+            <certificates src="user" />
+        </trust-anchors>
+    </debug-overrides>
+</network-security-config>

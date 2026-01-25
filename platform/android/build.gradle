@@ -1,0 +1,139 @@
+// Custom Android build.gradle for JinGo VPN
+// This file will be used by Qt androiddeployqt instead of the default
+
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    dependencies {
+        //noinspection AndroidGradlePluginVersion
+        classpath 'com.android.tools.build:gradle:8.10.1'
+    }
+}
+
+repositories {
+    google()
+    mavenCentral()
+}
+
+apply plugin: qtGradlePluginType
+
+dependencies {
+    // Include both JAR and AAR files from libs directory
+    implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
+    //noinspection GradleDependency
+    implementation 'androidx.core:core:1.16.0'
+}
+
+// Disable all Gradle caching to ensure fresh builds every time
+gradle.startParameter.rerunTasks = true
+gradle.startParameter.refreshDependencies = true
+
+// Force Gradle to always re-execute JNI merge tasks
+tasks.whenTaskAdded { task ->
+    if (task.name.contains('mergeDebugJniLibFolders') ||
+        task.name.contains('mergeDebugNativeLibs') ||
+        task.name.contains('stripDebugDebugSymbols')) {
+        task.outputs.upToDateWhen { false }
+    }
+}
+
+android {
+    /*******************************************************
+     * The following variables:
+     * - androidBuildToolsVersion,
+     * - androidCompileSdkVersion
+     * - qtAndroidDir - holds the path to qt android files
+     *                   needed to build any Qt application
+     *                   on Android.
+     * - qtGradlePluginType - whether to build an app or a library
+     *
+     * are defined in gradle.properties file. This file is
+     * updated by QtCreator and androiddeployqt tools.
+     * Changing them manually might break the compilation!
+     *******************************************************/
+
+    namespace = androidPackageName
+    compileSdkVersion 35  // Updated to API 35 for androidx.core:core:1.16.0 compatibility
+    buildToolsVersion androidBuildToolsVersion
+    ndkVersion = androidNdkVersion
+
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = [qtAndroidDir + '/src', 'src', 'java']
+            aidl.srcDirs = [qtAndroidDir + '/src', 'src', 'aidl']
+            res.srcDirs = [qtAndroidDir + '/res', 'res']
+            resources.srcDirs = ['resources']
+            renderscript.srcDirs = ['src']
+            assets.srcDirs = ['assets']
+            jniLibs.srcDirs = ['libs']
+       }
+    }
+
+    tasks.withType(JavaCompile) {
+        options.incremental = true
+        options.compilerArgs += ['-Xlint:all']
+    }
+
+    // Updated to Java 11 (removes deprecation warnings)
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    lintOptions {
+        abortOnError = false
+    }
+
+    // Do not compress Qt binary resources file
+    aaptOptions {
+        noCompress 'rcc'
+    }
+
+    defaultConfig {
+        resConfig "en"
+        minSdkVersion qtMinSdkVersion
+        targetSdkVersion qtTargetSdkVersion
+        ndk.abiFilters = qtTargetAbiList.split(",")
+    }
+
+    signingConfigs {
+        release {
+            // Keystore 路径: 优先使用本地目录,其次使用项目源码目录
+            def keystorePath = file('keystore/jingo-release.keystore')
+            if (!keystorePath.exists()) {
+                // 回退到项目源码目录 (CI 环境)
+                keystorePath = file('../../platform/android/keystore/jingo-release.keystore')
+            }
+            storeFile keystorePath
+            storePassword 'jingo1101'
+            keyAlias 'jingo'
+            keyPassword 'jingo1101'
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    // Qt Creator/androiddeployqt expects *-unsigned.apk name
+    // Rename release APK to match Qt's expectations
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            if (variant.buildType.name == 'release') {
+                // Change release APK name to include 'unsigned' suffix for Qt Creator compatibility
+                outputFileName = output.outputFile.name.replace('-release.apk', '-release-unsigned.apk')
+            }
+        }
+    }
+}

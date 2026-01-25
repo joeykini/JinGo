@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 深色模式主题 -->
+    <style name="AppTheme" parent="@android:style/Theme.Material.NoActionBar">
+        <!-- 不使用任何半透明效果 -->
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowTranslucentNavigation">false</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+
+        <!-- ⭐ 状态栏使用深色背景，确保图标清晰可见 -->
+        <item name="android:statusBarColor">#1F1F1F</item>
+
+        <!-- 状态栏图标为浅色 (适配深色背景) -->
+        <item name="android:windowLightStatusBar">false</item>
+
+        <!-- 导航栏配置 -->
+        <item name="android:navigationBarColor">#1A1A1A</item>
+        <item name="android:windowLightNavigationBar">false</item>
+
+        <!-- 其他窗口配置 -->
+        <item name="android:windowFullscreen">false</item>
+        <!-- ⭐ 内容不延伸到状态栏，避免重叠 -->
+        <item name="android:fitsSystemWindows">true</item>
+    </style>
+</resources>

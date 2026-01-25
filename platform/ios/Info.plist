@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- ========== 基本应用信息 ========== -->
+    <key>CFBundleDevelopmentRegion</key>
+    <string>en</string>
+
+    <key>CFBundleDisplayName</key>
+    <string>JinGo</string>
+
+    <key>CFBundleExecutable</key>
+    <string>JinGo</string>
+
+    <key>CFBundleIdentifier</key>
+    <string>work.opine.jingo</string>
+
+    <key>CFBundleInfoDictionaryVersion</key>
+    <string>6.0</string>
+
+    <key>CFBundleName</key>
+    <string>JinGo</string>
+
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+
+    <key>CFBundleShortVersionString</key>
+    <string>1.0.0</string>
+
+    <key>CFBundleVersion</key>
+    <string>1</string>
+
+    <!-- ========== iOS 最低版本 ========== -->
+    <key>MinimumOSVersion</key>
+    <string>14.0</string>
+
+    <!-- ========== 设备支持 ========== -->
+    <key>UIDeviceFamily</key>
+    <array>
+        <integer>1</integer> <!-- iPhone -->
+        <integer>2</integer> <!-- iPad -->
+    </array>
+
+    <!-- ========== 界面方向 ========== -->
+    <!-- iPhone 支持的方向 -->
+    <key>UISupportedInterfaceOrientations</key>
+    <array>
+        <string>UIInterfaceOrientationPortrait</string>
+        <string>UIInterfaceOrientationLandscapeLeft</string>
+        <string>UIInterfaceOrientationLandscapeRight</string>
+    </array>
+
+    <!-- iPad 支持的方向 -->
+    <key>UISupportedInterfaceOrientations~ipad</key>
+    <array>
+        <string>UIInterfaceOrientationPortrait</string>
+        <string>UIInterfaceOrientationPortraitUpsideDown</string>
+        <string>UIInterfaceOrientationLandscapeLeft</string>
+        <string>UIInterfaceOrientationLandscapeRight</string>
+    </array>
+
+    <!-- ========== 启动屏幕 ========== -->
+    <!-- 使用 LaunchScreen storyboard -->
+    <key>UILaunchStoryboardName</key>
+    <string>LaunchScreen</string>
+
+    <!-- ========== 全屏设置 ========== -->
+    <key>UIRequiresFullScreen</key>
+    <true/>
+
+    <!-- ========== 状态栏 ========== -->
+    <key>UIStatusBarStyle</key>
+    <string>UIStatusBarStyleDefault</string>
+
+    <key>UIStatusBarHidden</key>
+    <false/>
+
+    <key>UIViewControllerBasedStatusBarAppearance</key>
+    <false/>
+
+    <!-- ========== 场景配置（iOS 13+）========== -->
+    <key>UIApplicationSceneManifest</key>
+    <dict>
+        <key>UIApplicationSupportsMultipleScenes</key>
+        <false/>
+    </dict>
+
+    <!-- ========== 权限说明 ========== -->
+    <!-- VPN 权限 -->
+    <key>NSLocalNetworkUsageDescription</key>
+    <string>JinGo 需要访问本地网络以建立 VPN 连接并安全地路由您的流量。</string>
+
+    <!-- Network Extension 权限 -->
+    <key>NSNetworkExtensionUsageDescription</key>
+    <string>JinGo 使用网络扩展来提供安全的 VPN 隧道功能。</string>
+
+    <!-- ========== App Transport Security ========== -->
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSAllowsArbitraryLoads</key>
+        <false/>
+        <key>NSAllowsLocalNetworking</key>
+        <true/>
+    </dict>
+
+    <!-- ========== 后台模式 ========== -->
+    <key>UIBackgroundModes</key>
+    <array>
+        <string>network-authentication</string>
+        <string>fetch</string>
+        <string>processing</string>
+    </array>
+
+    <!-- ========== 文件共享 ========== -->
+    <key>UIFileSharingEnabled</key>
+    <false/>
+
+    <key>LSSupportsOpeningDocumentsInPlace</key>
+    <false/>
+
+    <!-- ========== 其他设置 ========== -->
+    <key>NSHumanReadableCopyright</key>
+    <string>Copyright © 2025 JinGo. All rights reserved.</string>
+
+    <!-- 主界面文件（Qt 应用不需要） -->
+    <key>UIMainStoryboardFile</key>
+    <string></string>
+
+    <!-- 应用图标配置 -->
+    <key>CFBundleIcons</key>
+    <dict>
+        <key>CFBundlePrimaryIcon</key>
+        <dict>
+            <key>CFBundleIconName</key>
+            <string>AppIcon</string>
+        </dict>
+    </dict>
+
+    <!-- 应用图标不使用 Alpha 通道 -->
+    <key>UIPrerenderedIcon</key>
+    <false/>
+</dict>
+</plist>

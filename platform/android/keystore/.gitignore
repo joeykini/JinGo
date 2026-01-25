@@ -1,0 +1,6 @@
+# Keystore 文件说明:
+# - jingo-release.keystore: 允许提交 (私有仓库)
+# - 其他 keystore 文件不提交
+*.jks
+# 允许 jingo-release.keystore
+!jingo-release.keystore
