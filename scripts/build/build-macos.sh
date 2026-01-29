@@ -61,6 +61,18 @@ else
     echo "[DEBUG] Falling back to default path: $QT_MACOS_PATH"
 fi
 
+# 检查路径是否存在并打印目录结构
+if [[ -d "$QT_MACOS_PATH" ]]; then
+    echo "[DEBUG] QT_MACOS_PATH exists. Contents of $(dirname "$QT_MACOS_PATH"):"
+    ls -F "$(dirname "$QT_MACOS_PATH")" | head -n 20
+else
+    echo "[DEBUG] QT_MACOS_PATH does NOT exist: $QT_MACOS_PATH"
+    if [[ -n "${QT_ROOT_DIR:-}" ]] && [[ -d "$QT_ROOT_DIR" ]]; then
+        echo "[DEBUG] Contents of QT_ROOT_DIR ($QT_ROOT_DIR):"
+        ls -F "$QT_ROOT_DIR" | head -n 20
+    fi
+fi
+
 # --------------------- 脚本初始化 ---------------------
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 

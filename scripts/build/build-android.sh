@@ -57,11 +57,28 @@ else
     echo "[DEBUG] Falling back to default path: $QT_BASE_PATH"
 fi
 
+# 检查路径是否存在并打印目录结构
+if [[ -d "$QT_BASE_PATH" ]]; then
+    echo "[DEBUG] QT_BASE_PATH exists. Contents of $QT_BASE_PATH:"
+    ls -F "$QT_BASE_PATH" | head -n 20
+else
+    echo "[DEBUG] QT_BASE_PATH does NOT exist: $QT_BASE_PATH"
+    if [[ -n "${QT_ROOT_DIR:-}" ]] && [[ -d "$QT_ROOT_DIR" ]]; then
+        echo "[DEBUG] Contents of QT_ROOT_DIR ($QT_ROOT_DIR):"
+        ls -F "$QT_ROOT_DIR" | head -n 20
+    fi
+fi
+
 # --------------------- Android SDK/NDK 配置 ---------------------
 # Android SDK 路径 (优先使用环境变量)
 if [[ -z "${ANDROID_SDK_ROOT:-}" ]]; then
-    ANDROID_SDK_ROOT="/Volumes/mindata/Library/Android/aarch64/sdk"
-    echo "[DEBUG] Falling back to default ANDROID_SDK_ROOT: $ANDROID_SDK_ROOT"
+    if [[ -n "${ANDROID_HOME:-}" ]]; then
+        ANDROID_SDK_ROOT="$ANDROID_HOME"
+        echo "[DEBUG] Using ANDROID_HOME as ANDROID_SDK_ROOT: $ANDROID_SDK_ROOT"
+    else
+        ANDROID_SDK_ROOT="/Volumes/mindata/Library/Android/aarch64/sdk"
+        echo "[DEBUG] Falling back to default ANDROID_SDK_ROOT: $ANDROID_SDK_ROOT"
+    fi
 else
     echo "[DEBUG] Using ANDROID_SDK_ROOT: $ANDROID_SDK_ROOT"
 fi

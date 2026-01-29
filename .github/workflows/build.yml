@@ -82,13 +82,15 @@ jobs:
           fi
 
       - name: Build macOS
+        env:
+          QT_ROOT_DIR: ${{ steps.install-qt.outputs.qt_root }}
+          Qt6_DIR: ${{ steps.install-qt.outputs.qt_dir }}
         run: |
           chmod +x scripts/build/build-macos.sh
-          # 脚本会自动使用 Qt6_DIR 环境变量
           if [ "${{ github.event.inputs.build_type }}" = "Release" ]; then
-            ./scripts/build/build-macos.sh --release --skip-sign
+            ./scripts/build/build-macos.sh --release --skip-sign --brand ${{ github.event.inputs.brand_id }}
           else
-            ./scripts/build/build-macos.sh --skip-sign
+            ./scripts/build/build-macos.sh --skip-sign --brand ${{ github.event.inputs.brand_id }}
           fi
 
       - name: Package macOS App
@@ -210,13 +212,15 @@ jobs:
           fi
 
       - name: Build Linux
+        env:
+          QT_ROOT_DIR: ${{ steps.install-qt.outputs.qt_root }}
+          Qt6_DIR: ${{ steps.install-qt.outputs.qt_dir }}
         run: |
           chmod +x scripts/build/build-linux.sh
-          # 脚本会自动使用 Qt6_DIR 环境变量
           if [ "${{ github.event.inputs.build_type }}" = "Release" ]; then
-            ./scripts/build/build-linux.sh --release
+            ./scripts/build/build-linux.sh --release --brand ${{ github.event.inputs.brand_id }}
           else
-            ./scripts/build/build-linux.sh
+            ./scripts/build/build-linux.sh --brand ${{ github.event.inputs.brand_id }}
           fi
 
       - name: Package Linux
@@ -281,16 +285,15 @@ jobs:
           fi
 
       - name: Build Android
+        env:
+          QT_ROOT_DIR: ${{ steps.install-qt.outputs.qt_root }}
+          Qt6_DIR: ${{ steps.install-qt.outputs.qt_dir }}
         run: |
           chmod +x scripts/build/build-android.sh
-          # 设置环境变量供脚本使用
-          export ANDROID_SDK_ROOT="$ANDROID_HOME"
-          export ANDROID_NDK_VERSION="${{ env.ANDROID_NDK_VERSION }}"
-          # Qt6_DIR 由 install-qt-action 自动设置
           if [ "${{ github.event.inputs.build_type }}" = "Release" ]; then
-            ./scripts/build/build-android.sh --release --abi arm64-v8a
+            ./scripts/build/build-android.sh --release --abi arm64-v8a --brand ${{ github.event.inputs.brand_id }}
           else
-            ./scripts/build/build-android.sh --abi arm64-v8a
+            ./scripts/build/build-android.sh --abi arm64-v8a --brand ${{ github.event.inputs.brand_id }}
           fi
 
       - name: Upload Android Artifact
@@ -334,10 +337,12 @@ jobs:
           fi
 
       - name: Build iOS (Xcode Project)
+        env:
+          QT_ROOT_DIR: ${{ steps.install-qt.outputs.qt_root }}
+          Qt6_DIR: ${{ steps.install-qt.outputs.qt_dir }}
         run: |
           chmod +x scripts/build/build-ios.sh
-          # 脚本会自动使用 Qt6_DIR 环境变量
-          ./scripts/build/build-ios.sh --xcode
+          ./scripts/build/build-ios.sh --xcode --brand ${{ github.event.inputs.brand_id }}
 
       - name: Build with Xcode (Device - Unsigned)
         run: |
@@ -381,4 +386,8 @@ jobs:
       - name: List Artifacts
         run: |
           echo "=== Downloaded Artifacts ==="
-          find artifacts -type f -name "*.*"
+          if [ -d "artifacts" ]; then
+            find artifacts -type f -name "*.*"
+          else
+            echo "No artifacts directory found."
+          fi
