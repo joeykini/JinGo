@@ -30,8 +30,16 @@ set -o pipefail  # 管道中的错误也触发退出
 if [[ -n "${QT_MACOS_PATH:-}" ]]; then
     : # 使用已设置的 QT_MACOS_PATH
 elif [[ -n "${Qt6_DIR:-}" ]]; then
-    QT_MACOS_PATH="$Qt6_DIR"
+    # Qt6_DIR 可能指向 cmake 目录，我们需要获取其所属的 qt 安装根目录
+    if [[ "$Qt6_DIR" == *"/lib/cmake/Qt6" ]]; then
+        QT_MACOS_PATH="${Qt6_DIR%/lib/cmake/Qt6}"
+    else
+        QT_MACOS_PATH="$Qt6_DIR"
+    fi
+elif [[ "$GITHUB_ACTIONS" == "true" ]] && [[ -n "${QT_ROOT_DIR:-}" ]]; then
+    QT_MACOS_PATH="${QT_ROOT_DIR}/macos"
 else
+    # 默认路径（仅用于本地开发 fallback）
     QT_MACOS_PATH="/Volumes/mindata/Applications/Qt/6.10.0/macos"
 fi
 

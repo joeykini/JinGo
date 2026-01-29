@@ -4,46 +4,46 @@ on:
   workflow_dispatch:
     inputs:
       brand_id:
-        description: 'Brand ID (white-labeling folder number)'
+        description: "Brand ID (white-labeling folder number)"
         required: true
-        default: '1'
+        default: "1"
         type: choice
         options:
-          - '1'
-          - '2'
-          - '3'
-          - '4'
-          - '5'
+          - "1"
+          - "2"
+          - "3"
+          - "4"
+          - "5"
       build_type:
-        description: 'Build Type'
+        description: "Build Type"
         required: true
-        default: 'Release'
+        default: "Release"
         type: choice
         options:
-          - 'Debug'
-          - 'Release'
+          - "Debug"
+          - "Release"
       platforms:
-        description: 'Platforms to build'
+        description: "Platforms to build"
         required: true
-        default: 'all'
+        default: "all"
         type: choice
         options:
-          - 'all'
-          - 'macos'
-          - 'windows'
-          - 'linux'
-          - 'android'
-          - 'ios'
+          - "all"
+          - "macos"
+          - "windows"
+          - "linux"
+          - "android"
+          - "ios"
 
 env:
   # Qt 版本配置
   # 项目要求: Qt 6.5+ (见 cmake/Dependencies-Qt.cmake)
   # 查看 aqtinstall 可用版本: https://ddalcino.github.io/aqt-list-server/
   # 或运行: aqt list-qt linux desktop
-  QT_VERSION: '6.8.1'  # LTS 版本，支持到 2029-10
-  ANDROID_NDK_VERSION: '27.2.12479018'
-  ANDROID_BUILD_TOOLS_VERSION: '34.0.0'
-  ANDROID_PLATFORM: 'android-34'
+  QT_VERSION: "6.8.1" # LTS 版本，支持到 2029-10
+  ANDROID_NDK_VERSION: "27.2.12479018"
+  ANDROID_BUILD_TOOLS_VERSION: "34.0.0"
+  ANDROID_PLATFORM: "android-34"
 
 jobs:
   # ============================================================================
@@ -59,13 +59,17 @@ jobs:
           submodules: recursive
 
       - name: Install Qt
+        id: install-qt
         uses: jurplel/install-qt-action@v4
         with:
           version: ${{ env.QT_VERSION }}
-          host: 'mac'
-          target: 'desktop'
-          arch: 'clang_64'
+          host: "mac"
+          target: "desktop"
+          arch: "clang_64"
           cache: true
+
+      - name: Set Qt Root Dir
+        run: echo "QT_ROOT_DIR=${{ steps.install-qt.outputs.qt_root }}" >> $GITHUB_ENV
 
       - name: Apply White Label Config
         run: |
@@ -108,14 +112,18 @@ jobs:
           submodules: recursive
 
       - name: Install Qt
+        id: install-qt
         uses: jurplel/install-qt-action@v4
         with:
           version: ${{ env.QT_VERSION }}
-          host: 'windows'
-          target: 'desktop'
-          arch: 'win64_mingw'
-          tools: 'tools_mingw1310'
+          host: "windows"
+          target: "desktop"
+          arch: "win64_mingw"
+          tools: "tools_mingw1310"
           cache: true
+
+      - name: Set Qt Root Dir
+        run: echo "QT_ROOT_DIR=${{ steps.install-qt.outputs.qt_root }}" >> $GITHUB_ENV
 
       - name: Apply White Label Config
         shell: bash
@@ -173,13 +181,17 @@ jobs:
             libxkbcommon-dev libxkbcommon-x11-dev
 
       - name: Install Qt
+        id: install-qt
         uses: jurplel/install-qt-action@v4
         with:
           version: ${{ env.QT_VERSION }}
-          host: 'linux'
-          target: 'desktop'
-          arch: 'gcc_64'
+          host: "linux"
+          target: "desktop"
+          arch: "gcc_64"
           cache: true
+
+      - name: Set Qt Root Dir
+        run: echo "QT_ROOT_DIR=${{ steps.install-qt.outputs.qt_root }}" >> $GITHUB_ENV
 
       - name: Apply White Label Config
         run: |
@@ -224,8 +236,8 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          java-version: '17'
+          distribution: "temurin"
+          java-version: "17"
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
@@ -237,13 +249,17 @@ jobs:
           sdkmanager --install "platforms;${{ env.ANDROID_PLATFORM }}"
 
       - name: Install Qt for Android
+        id: install-qt
         uses: jurplel/install-qt-action@v4
         with:
           version: ${{ env.QT_VERSION }}
-          host: 'linux'
-          target: 'android'
-          arch: 'android_arm64_v8a'
+          host: "linux"
+          target: "android"
+          arch: "android_arm64_v8a"
           cache: true
+
+      - name: Set Qt Root Dir
+        run: echo "QT_ROOT_DIR=${{ steps.install-qt.outputs.qt_root }}" >> $GITHUB_ENV
 
       - name: Apply White Label Config
         run: |
@@ -284,12 +300,16 @@ jobs:
           submodules: recursive
 
       - name: Install Qt for iOS
+        id: install-qt
         uses: jurplel/install-qt-action@v4
         with:
           version: ${{ env.QT_VERSION }}
-          host: 'mac'
-          target: 'ios'
+          host: "mac"
+          target: "ios"
           cache: true
+
+      - name: Set Qt Root Dir
+        run: echo "QT_ROOT_DIR=${{ steps.install-qt.outputs.qt_root }}" >> $GITHUB_ENV
 
       - name: Apply White Label Config
         run: |

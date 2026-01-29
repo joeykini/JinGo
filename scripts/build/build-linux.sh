@@ -30,8 +30,16 @@ set -o pipefail  # 管道中的错误也触发退出
 if [[ -n "${QT_DIR:-}" ]]; then
     : # 使用已设置的 QT_DIR
 elif [[ -n "${Qt6_DIR:-}" ]]; then
-    QT_DIR="$Qt6_DIR"
+    # Qt6_DIR 可能指向 cmake 目录，我们需要获取其所属的 qt 安装根目录
+    if [[ "$Qt6_DIR" == *"/lib/cmake/Qt6" ]]; then
+        QT_DIR="${Qt6_DIR%/lib/cmake/Qt6}"
+    else
+        QT_DIR="$Qt6_DIR"
+    fi
+elif [[ "$GITHUB_ACTIONS" == "true" ]] && [[ -n "${QT_ROOT_DIR:-}" ]]; then
+    QT_DIR="${QT_ROOT_DIR}/gcc_64"
 else
+    # 默认路径（仅用于本地开发 fallback）
     QT_DIR="/mnt/dev/Qt/6.10.1/gcc_64"
 fi
 

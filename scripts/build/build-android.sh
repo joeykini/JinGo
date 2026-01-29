@@ -30,9 +30,19 @@ set -e  # 遇到错误立即退出
 if [[ -n "${QT_BASE_PATH:-}" ]]; then
     : # 使用已设置的 QT_BASE_PATH
 elif [[ -n "${Qt6_DIR:-}" ]]; then
-    # Qt6_DIR 指向 android_arm64_v8a/lib/cmake/Qt6，取其父目录的父目录的父目录的父目录
-    QT_BASE_PATH="$(dirname "$(dirname "$(dirname "$(dirname "$Qt6_DIR")")")")"
+    # Qt6_DIR 指向 android_arm64_v8a/lib/cmake/Qt6，我们需要获取其所属的 qt 安装根目录的父目录
+    # 路径结构: <ROOT>/6.10.0/android_arm64_v8a/lib/cmake/Qt6
+    if [[ "$Qt6_DIR" == *"/lib/cmake/Qt6" ]]; then
+        # 移除 /lib/cmake/Qt6 (结果是 <ROOT>/6.10.0/android_arm64_v8a)
+        # 然后取其父目录 (结果是 <ROOT>/6.10.0)
+        QT_BASE_PATH="$(dirname "${Qt6_DIR%/lib/cmake/Qt6}")"
+    else
+        QT_BASE_PATH="$Qt6_DIR"
+    fi
+elif [[ "$GITHUB_ACTIONS" == "true" ]] && [[ -n "${QT_ROOT_DIR:-}" ]]; then
+    QT_BASE_PATH="$QT_ROOT_DIR"
 else
+    # 默认路径（仅用于本地开发 fallback）
     QT_BASE_PATH="/Volumes/mindata/Applications/Qt/6.10.0"
 fi
 
