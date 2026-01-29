@@ -1,0 +1,35 @@
+{
+    "__signed": true,
+    "__version": "1.0",
+    "__algorithm": "RSA-SHA256",
+    "__signed_at": "2026-01-12T03:51:54Z",
+    "config": {
+        "panelUrl": "https://cp.jingo.cfd",
+        "appName": "JinGo",
+        "supportEmail": "support@jingo.cfd",
+        "privacyPolicyUrl": "https://opine.work/privacy",
+        "termsOfServiceUrl": "https://opine.work/terms",
+        "telegramUrl": "https://t.me/JinGoAccelerator",
+        "discordUrl": "https://discord.gg/RX5uSdScwm",
+        "docsUrl": "https://docs.opine.work",
+        "issuesUrl": "https://opine.work/issues",
+        "latencyTestUrl": "https://www.google.com/generate_204",
+        "ipInfoUrl": "https://ipinfo.io/json",
+        "speedTestBaseUrl": "https://speed.cloudflare.com/__down?bytes=",
+        "hideSubscriptionBlock": true,
+        "updateCheckUrl": "https://opine.work",
+        "licenseUrl": "https://opine.work/license",
+        "license": {
+            "licenseId": "LIC-VT0G-C7X5-1TYN-KV7C",
+            "vendorId": "user-3",
+            "vendorName": "JinGo",
+            "issuedAt": "2026-01-12T11:51:54+08:00"
+        },
+        "licenseServer": {
+            "baseUrl": "https://license.opine.work",
+            "checkInterval": 86400,
+            "offlineGracePeriod": 604800
+        }
+    },
+    "signature": "Gke7iWg5/C73iMO2jXPn8KVz8yWMToLZoRSF7lrfe+twQPc97IJUuqTKM0jeubInOrTE64LoUD2OKh4jC6tAQ3YiEjJTbikyE/cXsgcEDlfBATvfokOE8Qn3E2tvi3zueB5aWdrKml8wSuw51R0PklwHJsFwkghlp4/VIp34z4ii0ZwqvZP2FgIrH3h/uiEimHHft19Mf6UPPHzcSpAgXkILrLjf2SXaQMlL77T+1QyoT9mdIyKtl5vgC1IvgpU/Mhov+FrRmmLu2iy1wAdi/Sy/4b/F+Ximw3dnNzMctglEtCk6NREzWuyMXiLxxi6tq5Ogkrw3VOvAgTL2EFuKVg=="
+}

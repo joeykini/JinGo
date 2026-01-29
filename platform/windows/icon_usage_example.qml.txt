@@ -1,0 +1,293 @@
+/**
+ * @file icon_usage_example.qml
+ * @brief QML 中使用 Windows 图标的示例
+ * @details 展示如何在 QML 中访问和使用 app.ico
+ */
+
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+
+/**
+ * 示例 1: 在 ApplicationWindow 中设置图标
+ */
+ApplicationWindow {
+    id: root
+    width: 800
+    height: 600
+    visible: true
+    title: "JinGo VPN"
+
+    // 设置窗口图标
+    icon.source: "qrc:/icons/app.ico"
+
+    /**
+     * 示例 2: 在 Image 组件中显示图标
+     */
+    ColumnLayout {
+        anchors.centerIn: parent
+        spacing: 20
+
+        // 显示大图标
+        Image {
+            id: largeIcon
+            source: "qrc:/icons/app.ico"
+            width: 128
+            height: 128
+            Layout.alignment: Qt.AlignHCenter
+
+            // 平滑缩放
+            smooth: true
+            mipmap: true
+        }
+
+        // 显示中等图标
+        Image {
+            id: mediumIcon
+            source: "qrc:/icons/app.ico"
+            width: 64
+            height: 64
+            Layout.alignment: Qt.AlignHCenter
+            smooth: true
+        }
+
+        // 显示小图标
+        Image {
+            id: smallIcon
+            source: "qrc:/icons/app.ico"
+            width: 32
+            height: 32
+            Layout.alignment: Qt.AlignHCenter
+            smooth: true
+        }
+
+        Text {
+            text: "应用程序图标示例"
+            font.pixelSize: 16
+            Layout.alignment: Qt.AlignHCenter
+        }
+    }
+}
+
+/**
+ * 示例 3: 在 Button 中使用图标
+ */
+Rectangle {
+    width: 300
+    height: 200
+
+    Column {
+        anchors.centerIn: parent
+        spacing: 10
+
+        Button {
+            text: "带图标的按钮"
+            icon.source: "qrc:/icons/app.ico"
+            icon.width: 24
+            icon.height: 24
+        }
+
+        Button {
+            text: "仅图标"
+            display: AbstractButton.IconOnly
+            icon.source: "qrc:/icons/app.ico"
+            icon.width: 32
+            icon.height: 32
+        }
+    }
+}
+
+/**
+ * 示例 4: 在 Dialog 中使用图标
+ */
+Dialog {
+    id: aboutDialog
+    title: "关于 JinGo VPN"
+    modal: true
+
+    // 对话框图标
+    standardButtons: Dialog.Ok
+
+    RowLayout {
+        spacing: 15
+
+        Image {
+            source: "qrc:/icons/app.ico"
+            width: 64
+            height: 64
+            smooth: true
+        }
+
+        ColumnLayout {
+            Label {
+                text: "JinGo VPN"
+                font.bold: true
+                font.pixelSize: 16
+            }
+            Label {
+                text: "版本 1.0.0"
+            }
+            Label {
+                text: "跨平台 Xray VPN 客户端"
+            }
+        }
+    }
+}
+
+/**
+ * 示例 5: 在自定义组件中使用图标
+ */
+Item {
+    id: customIconComponent
+
+    property string iconSource: "qrc:/icons/app.ico"
+    property int iconSize: 48
+
+    Image {
+        id: icon
+        source: parent.iconSource
+        width: parent.iconSize
+        height: parent.iconSize
+        anchors.centerIn: parent
+        smooth: true
+        mipmap: true
+
+        // 添加鼠标悬停效果
+        MouseArea {
+            anchors.fill: parent
+            hoverEnabled: true
+
+            onEntered: {
+                parent.scale = 1.1
+            }
+
+            onExited: {
+                parent.scale = 1.0
+            }
+        }
+
+        // 平滑的缩放动画
+        Behavior on scale {
+            NumberAnimation {
+                duration: 150
+                easing.type: Easing.OutCubic
+            }
+        }
+    }
+}
+
+/**
+ * 示例 6: 在系统托盘中使用图标（需要 C++ 支持）
+ *
+ * 注意: QML 本身不直接支持系统托盘，需要通过 C++ 后端实现
+ * 在 C++ 代码中：
+ *
+ * QSystemTrayIcon *trayIcon = new QSystemTrayIcon(this);
+ * trayIcon->setIcon(QIcon(":/icons/app.ico"));
+ * trayIcon->show();
+ */
+
+/**
+ * 示例 7: 根据平台动态选择图标
+ */
+Item {
+    Image {
+        source: {
+            if (Qt.platform.os === "windows") {
+                return "qrc:/icons/app.ico"
+            } else if (Qt.platform.os === "osx") {
+                return "qrc:/icons/app.icns"
+            } else {
+                return "qrc:/icons/app.png"
+            }
+        }
+        width: 64
+        height: 64
+        smooth: true
+    }
+}
+
+/**
+ * 示例 8: 在 ToolBar 中使用图标
+ */
+ToolBar {
+    RowLayout {
+        anchors.fill: parent
+
+        ToolButton {
+            icon.source: "qrc:/icons/app.ico"
+            icon.width: 24
+            icon.height: 24
+            text: "主页"
+        }
+
+        ToolButton {
+            icon.source: "qrc:/icons/app.ico"
+            icon.width: 24
+            icon.height: 24
+            text: "设置"
+        }
+    }
+}
+
+/**
+ * 使用注意事项：
+ *
+ * 1. 资源路径
+ *    - QML 中必须使用 "qrc:/icons/app.ico" 格式
+ *    - 不能使用 C++ 的 ":/icons/app.ico" 格式
+ *
+ * 2. 图标尺寸
+ *    - ICO 文件包含多个尺寸 (16, 32, 48, 64, 128, 256)
+ *    - Qt 会自动选择最接近的尺寸
+ *    - 可以通过 width/height 属性缩放
+ *
+ * 3. 图像质量
+ *    - 设置 smooth: true 启用平滑缩放
+ *    - 设置 mipmap: true 改善缩小时的质量
+ *
+ * 4. 性能考虑
+ *    - 图标已编译进可执行文件，加载速度快
+ *    - 避免频繁重新加载同一图标
+ *    - 可以使用 IconImage 组件（Qt 6.2+）获得更好的性能
+ *
+ * 5. 高 DPI 支持
+ *    - Qt 自动处理高 DPI 显示
+ *    - ICO 文件的多尺寸确保在不同 DPI 下清晰
+ *
+ * 6. 跨平台兼容性
+ *    - Windows: .ico 格式
+ *    - macOS: .icns 格式
+ *    - Linux: .png 格式
+ *    - 建议在 qrc 文件中包含所有格式，根据平台动态选择
+ */
+
+/**
+ * 推荐的图标使用模式
+ */
+QtObject {
+    id: iconProvider
+
+    // 集中管理图标路径
+    readonly property string appIcon: "qrc:/icons/app.ico"
+    readonly property string menuIcon: "qrc:/icons/menu.png"
+    readonly property string settingsIcon: "qrc:/icons/settings.png"
+    readonly property string userIcon: "qrc:/icons/user.png"
+
+    // 标准尺寸
+    readonly property int iconSizeSmall: 16
+    readonly property int iconSizeMedium: 24
+    readonly property int iconSizeLarge: 32
+    readonly property int iconSizeHuge: 48
+
+    // 根据平台获取应用图标
+    function getAppIcon() {
+        if (Qt.platform.os === "windows") {
+            return "qrc:/icons/app.ico"
+        } else if (Qt.platform.os === "osx") {
+            return "qrc:/icons/app.icns"
+        } else {
+            return "qrc:/icons/app.png"
+        }
+    }
+}

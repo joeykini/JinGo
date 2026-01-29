@@ -1,0 +1,129 @@
+# Git Attributes for JinGo VPN Project
+# 这个文件确保所有开发者在不同平台上使用相同的换行符处理方式
+# 重要：不自动转换换行符，保持文件原样
+
+# 默认行为：不自动处理文件，保持原样
+* -text
+
+# Shell 脚本：强制使用 LF（Unix 换行符）
+*.sh text eol=lf
+gradlew text eol=lf
+
+# Batch 脚本：强制使用 CRLF（Windows 换行符）
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# 其他文本文件：标记为文本但不自动转换换行符
+# 跨平台开发时，保持文件原有的换行符
+*.cpp -text
+*.h -text
+*.c -text
+*.hpp -text
+*.mm -text
+*.m -text
+*.java -text
+*.kt -text
+*.xml -text
+*.gradle -text
+*.cmake -text
+*.txt -text
+*.md -text
+*.json -text
+*.qml -text
+*.js -text
+*.ts -text
+*.html -text
+*.css -text
+*.py -text
+
+# CMake 文件
+CMakeLists.txt -text
+*.cmake -text
+
+# 配置文件
+.gitignore -text
+.gitattributes -text
+*.yml -text
+*.yaml -text
+*.toml -text
+*.ini -text
+*.conf -text
+*.config -text
+
+# macOS/iOS 特定文件
+*.plist -text
+*.entitlements -text
+*.xcconfig -text
+*.storyboard -text
+*.xib -text
+
+# Android 特定文件
+*.properties -text
+
+# 二进制文件：明确标记为二进制，不处理换行符
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.icns binary
+*.pdf binary
+*.so binary
+*.a binary
+*.lib binary
+*.dll binary
+*.dylib binary
+*.exe binary
+*.app binary
+*.ipa binary
+*.apk binary
+*.aab binary
+*.zip binary
+*.tar binary
+*.gz binary
+*.7z binary
+*.rar binary
+*.dat binary
+*.db binary
+*.sqlite binary
+*.keystore binary
+*.jks binary
+*.p12 binary
+*.mobileprovision binary
+*.framework binary
+*.xcframework binary
+*.aar binary
+*.jar binary
+*.war binary
+
+# Qt 编译产物
+*.qm binary
+*.pro text=auto
+*.pri text=auto
+*.qrc text=auto
+*.ui text=auto
+
+# 字体文件
+*.ttf binary
+*.otf binary
+*.woff binary
+*.woff2 binary
+*.eot binary
+
+# 音视频文件
+*.mp3 binary
+*.mp4 binary
+*.avi binary
+*.mov binary
+*.wav binary
+*.flac binary
+
+# 文档
+*.docx binary
+*.xlsx binary
+*.pptx binary
+
+# 导出属性
+export-ignore .gitattributes
+export-ignore .gitignore
+export-ignore .git

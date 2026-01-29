@@ -1,0 +1,36 @@
+{
+    "__signed": true,
+    "__version": "1.0",
+    "__algorithm": "RSA-SHA256",
+    "__signed_at": "2026-01-12T03:55:09Z",
+    "config": {
+        "panelUrl": "https://app.ucc117.one",
+        "appName": "PKCloud",
+        "supportEmail": "tim@pkhub.net",
+        "privacyPolicyUrl": "https://opine.work/privacy",
+        "termsOfServiceUrl": "https://opine.work/terms",
+        "telegramUrl": "https://t.me/JinGoAccelerator",
+        "discordUrl": "https://discord.gg/RX5uSdScwm",
+        "docsUrl": "https://docs.opine.work",
+        "issuesUrl": "https://opine.work/issues",
+        "latencyTestUrl": "https://www.google.com/generate_204",
+        "ipInfoUrl": "https://ipinfo.io/json",
+        "speedTestBaseUrl": "https://speed.cloudflare.com/__down?bytes=",
+        "buildInstructions": "### 3.1 本地打包环境搭建 (Local Setup)\n\n如果你坚持要在本地打包，请按以下步骤准备环境：\n\n#### 1. 安装基础工具\n```bash\n# 安装 Homebrew (如果没装)\n/bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\"\n\n# 安装 CMake 和 Ninja\nbrew install cmake ninja\n```\n\n#### 2. 安装 Qt 6.10+\n1. 前往 [Qt 官网](https://www.qt.io/download-qt-installer) 下载 **Qt Online Installer**。\n2. 安装时选择 **Qt 6.10.x**，并勾选以下组件：\n   - **macOS**\n   - **Android** (用于打包 Android 端)\n\n#### 3. 设置环境变量 (重要)\n在你的终端配置文件 (`~/.zshrc` 或 `~/.bash_profile`) 中添加：\n```bash\n# macOS 打包路径 (请确认你的实际安装路径)\nexport QT_MACOS_PATH=\"$HOME/Qt/6.10.1/macos\"\n\n# Android 打包配置\nexport QT_BASE_PATH=\"$HOME/Qt/6.10.1\"\nexport ANDROID_SDK_ROOT=\"$HOME/Library/Android/sdk\"\nexport ANDROID_NDK_VERSION=\"27.2.12479018\"\n```\n*修改完后运行 `source ~/.zshrc` 使之生效。*\n\n### 3.2 运行本地构建\n\n#### 🖥️ macOS\n```bash\n./scripts/build/build-macos.sh --release --brand 1 --skip-sign\n```\n*构建成功后，产物在 `release/` 目录下。*\n\n#### 🤖 Android\n1. 确保已在 Android Studio 中通过 SDK Manager 安装了所需的 NDK 版本。\n2. 运行：\n   ```bash\n   ./scripts/build/build-android.sh --brand 1 --abi arm64-v8a --release\n   ```\n*构建成功后，产物在 `release/` 目录下。*",
+        "hideSubscriptionBlock": true,
+        "updateCheckUrl": "https://opine.work",
+        "licenseUrl": "https://opine.work/license",
+        "license": {
+            "licenseId": "LIC-5L3U-DZ9C-XL3A-FMVQ",
+            "vendorId": "user-3",
+            "vendorName": "JinGo",
+            "issuedAt": "2026-01-12T11:55:09+08:00"
+        },
+        "licenseServer": {
+            "baseUrl": "https://license.opine.work",
+            "checkInterval": 86400,
+            "offlineGracePeriod": 604800
+        }
+    },
+    "signature": "rQQhb+wu89iPLZTeu+x7VK/nA72F54WZe6UTkF6oketV/hjH82rPx9PqznXNppob/NqyT2XZ+JSZu98pI58g/Tq9iZIzT/0XkcY1h/ZacQ6/mxZd34Jltg8uo206GxFFzgQgzTl7m9eZjDPr4H9u6Z65ahU5ycnf2KuNvAKZ0/0+6ypKNyahywWU9Mm4lQe1AFxwRUla9e+WgUpxgQs53kjm78unZiDtzius8OPUcksrUrWhVtyyuZL0312fTNl1AAyhk9UdlxR4ZndnzYGkq83o62f8quqsxusCW4m0GNqvR1yd9WmbpO55HroFi176JPmQbLRYNQXTeBls+6ZKtw=="
+}

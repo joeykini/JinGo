@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Application Identifier -->
+	<key>application-identifier</key>
+	<string>6HP2RFA5AK.work.opine.jingo.PacketTunnelProvider</string>
+
+	<!-- Team Identifier -->
+	<key>com.apple.developer.team-identifier</key>
+	<string>6HP2RFA5AK</string>
+
+	<!-- Network Extension 权限 (PacketTunnelProvider) -->
+	<key>com.apple.developer.networking.networkextension</key>
+	<array>
+		<string>app-proxy-provider</string>
+		<string>content-filter-provider</string>
+		<string>packet-tunnel-provider</string>
+		<string>dns-proxy</string>
+		<string>dns-settings</string>
+		<string>relay</string>
+		<string>url-filter-provider</string>
+		<string>hotspot-provider</string>
+	</array>
+
+	<!-- VPN API -->
+	<key>com.apple.developer.networking.vpn.api</key>
+	<array>
+		<string>allow-vpn</string>
+	</array>
+
+	<!-- App Groups - 用于与主APP共享数据 -->
+	<key>com.apple.security.application-groups</key>
+	<array>
+		<string>group.work.opine.jingo</string>
+	</array>
+
+	<!-- Keychain Access Groups - 用于安全存储 -->
+	<key>keychain-access-groups</key>
+	<array>
+		<string>6HP2RFA5AK.*</string>
+		<string>com.apple.token</string>
+	</array>
+
+	<!-- Allow get-task-allow for debugging -->
+	<key>get-task-allow</key>
+	<true/>
+</dict>
+</plist>

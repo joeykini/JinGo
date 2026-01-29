@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleDevelopmentRegion</key>
+    <string>en</string>
+    <key>CFBundleDisplayName</key>
+    <string>JinGoVPN</string>
+    <key>CFBundleExecutable</key>
+    <string>JinGo</string>
+    <key>CFBundleIconFile</key>
+    <string>app.icns</string>
+    <key>CFBundleIdentifier</key>
+    <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+    <key>CFBundleInfoDictionaryVersion</key>
+    <string>6.0</string>
+    <key>CFBundleName</key>
+    <string>JinGo</string>
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    <key>CFBundleShortVersionString</key>
+    <string>1.0.0</string>
+    <key>CFBundleVersion</key>
+    <string>1</string>
+    <key>LSMinimumSystemVersion</key>
+    <string>10.15</string>
+    <key>NSHighResolutionCapable</key>
+    <true/>
+    <key>NSHumanReadableCopyright</key>
+    <string>Copyright © 2025 JinGo. All rights reserved.</string>
+
+    <!-- VPN 权限说明 -->
+    <key>NSLocalNetworkUsageDescription</key>
+    <string>JinGo needs to access the local network to establish VPN connections and route your traffic securely.</string>
+
+    <!-- Network Extension 权限说明 -->
+    <key>NSNetworkExtensionUsageDescription</key>
+    <string>JinGo uses Network Extension to provide secure VPN tunnel functionality.</string>
+</dict>
+</plist>

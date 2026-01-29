@@ -1,0 +1,11 @@
+prefix=/mnt/dev/app/OpineWork/opine/third_party/linux_openssl/build/openssl-3.0.7/out
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib64
+includedir=${prefix}/include
+
+Name: OpenSSL-libssl
+Description: Secure Sockets Layer and cryptography libraries
+Version: 3.0.7
+Requires.private: libcrypto
+Libs: -L${libdir} -lssl
+Cflags: -I${includedir}

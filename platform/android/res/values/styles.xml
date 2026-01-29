@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 自定义应用主题 -->
+    <style name="AppTheme" parent="@android:style/Theme.Material.Light.NoActionBar">
+        <!-- 不使用任何半透明效果 -->
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowTranslucentNavigation">false</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+
+        <!-- ⭐ 状态栏和导航栏透明 -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+
+        <!-- 状态栏和导航栏图标为深色 (适配浅色背景) -->
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
+
+        <!-- 其他窗口配置 -->
+        <item name="android:windowFullscreen">false</item>
+        <!-- ⭐ 内容延伸到状态栏和导航栏下方 -->
+        <item name="android:fitsSystemWindows">false</item>
+    </style>
+</resources>

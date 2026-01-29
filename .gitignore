@@ -1,0 +1,112 @@
+# ==============================================================================
+# JinGo VPN .gitignore
+# ==============================================================================
+# 原则：
+# 1. 构建产物不跟踪
+# 2. 第三方库（third_party/）跟踪，包括静态库和框架
+# 3. 脚本文件跟踪
+# 4. 源代码跟踪
+# ==============================================================================
+
+# Build directories - 构建目录不跟踪
+/build/
+build-*/
+/release/
+pkg/
+
+# CMake generated files
+CMakeLists.txt.user
+*.pro.user
+*.autosave
+
+# Qt generated files
+*.qmlc
+*.jsc
+.qmake.stash
+*_autogen/
+meta_types/
+.qt/
+.rcc/
+.lupdate/
+
+# Android assets translations - generated from resources/translations/ during build
+platform/android/assets/translations/*.qm
+
+# Compiled object files (intermediate files)
+*.o
+*.obj
+
+# Root directory build artifacts (these should be in build/)
+/bin/
+/lib/
+
+# Temporary directory
+/delete/
+/temp/
+/tmp/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Claude Code specific
+.claude/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+
+# Logs
+*.log
+/logs/
+
+# Credentials (never commit!)
+credentials.json
+secrets.json
+.env
+.env.local
+.env.*.local
+
+# License keys (never commit!)
+tools/secrets/
+*_private_key.pem
+
+# ==============================================================================
+# 白标替换目标文件（构建时由 copy-brand-assets.sh 从 white-labeling/ 复制）
+# ==============================================================================
+# Android 图标
+platform/android/res/mipmap-*/ic_launcher.png
+
+# iOS 图标
+platform/ios/Assets.xcassets/AppIcon.appiconset/*.png
+
+# 通用资源
+resources/bundle_config.json
+resources/bundle_config.json.backup
+resources/icons/app.png
+
+# Android 构建产物
+platform/android/assets/bundle_config.json
+platform/android/libs/
+# ==============================================================================
+# IMPORTANT: Files that SHOULD be tracked (NOT ignored)
+# ==============================================================================
+# The following ARE tracked (do NOT add to ignore list):
+#   - third_party/**/*.a          # Static libraries
+#   - third_party/**/*.dylib      # Dynamic libraries
+#   - third_party/**/*.so         # Shared objects
+#   - third_party/**/*.xcframework # Apple frameworks
+#   - lib/**/*.a                  # Project libraries
+#   - resources/**                # All resources
+#   - scripts/**                  # All scripts
+#   - platform/**                 # Platform specific files
+#   - *.icns, *.ico               # Icon files
+#   - *.dat                       # Data files (geoip, geosite)
+# ==============================================================================

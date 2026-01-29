@@ -1,0 +1,37 @@
+#!/bin/sh
+# postinst script for jingo-vpn
+# 安装后自动执行的脚本
+
+set -e
+
+case "$1" in
+    configure)
+        # 更新桌面数据库
+        if [ -x /usr/bin/update-desktop-database ]; then
+            update-desktop-database -q /usr/share/applications || true
+        fi
+
+        # 更新图标缓存
+        if [ -x /usr/bin/gtk-update-icon-cache ]; then
+            gtk-update-icon-cache -q -t -f /usr/share/icons/hicolor || true
+        fi
+
+        # 设置 VPN 权限
+        if [ -x /usr/bin/JinGo ]; then
+            setcap cap_net_admin+eip /usr/bin/JinGo || true
+        fi
+
+        echo "JinGoVPN 安装完成！"
+        echo "在应用菜单中搜索 'JinGoVPN' 启动应用。"
+        ;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+        ;;
+
+    *)
+        echo "postinst called with unknown argument \`$1'" >&2
+        exit 1
+        ;;
+esac
+
+exit 0
