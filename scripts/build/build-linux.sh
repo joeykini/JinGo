@@ -27,20 +27,38 @@ set -o pipefail  # 管道中的错误也触发退出
 # 优先使用环境变量 QT_DIR 或 Qt6_DIR，否则使用默认值
 # 本地开发请修改下面的默认路径，或设置环境变量
 # 示例: "/opt/Qt/6.8.0/gcc_64" 或 "/home/yourname/Qt/6.8.0/gcc_64"
+
+echo "[DEBUG] Initializing Qt Linux path detection..."
+echo "[DEBUG] Environment: GITHUB_ACTIONS=${GITHUB_ACTIONS:-false}, Qt6_DIR=${Qt6_DIR:-not set}, QT_DIR=${QT_DIR:-not set}, QT_ROOT_DIR=${QT_ROOT_DIR:-not set}"
+
 if [[ -n "${QT_DIR:-}" ]]; then
-    : # 使用已设置的 QT_DIR
+    echo "[DEBUG] Using provided QT_DIR: $QT_DIR"
 elif [[ -n "${Qt6_DIR:-}" ]]; then
     # Qt6_DIR 可能指向 cmake 目录，我们需要获取其所属的 qt 安装根目录
+    # 路径通常是: .../6.8.1/gcc_64/lib/cmake/Qt6
     if [[ "$Qt6_DIR" == *"/lib/cmake/Qt6" ]]; then
         QT_DIR="${Qt6_DIR%/lib/cmake/Qt6}"
-    else
+        echo "[DEBUG] Derived QT_DIR from Qt6_DIR (cmake subdir): $QT_DIR"
+    elif [[ "$Qt6_DIR" == *"/gcc_64" ]]; then
         QT_DIR="$Qt6_DIR"
+        echo "[DEBUG] Using Qt6_DIR as QT_DIR: $QT_DIR"
+    else
+        # 尝试看看 Qt6_DIR 目录下是否有 gcc_64
+        if [[ -d "$Qt6_DIR/gcc_64" ]]; then
+            QT_DIR="$Qt6_DIR/gcc_64"
+            echo "[DEBUG] Found gcc_64 subdir in Qt6_DIR: $QT_DIR"
+        else
+            QT_DIR="$Qt6_DIR"
+            echo "[DEBUG] Using Qt6_DIR directly as fallback: $QT_DIR"
+        fi
     fi
 elif [[ "$GITHUB_ACTIONS" == "true" ]] && [[ -n "${QT_ROOT_DIR:-}" ]]; then
     QT_DIR="${QT_ROOT_DIR}/gcc_64"
+    echo "[DEBUG] Derived QT_DIR from QT_ROOT_DIR: $QT_DIR"
 else
     # 默认路径（仅用于本地开发 fallback）
     QT_DIR="/mnt/dev/Qt/6.10.1/gcc_64"
+    echo "[DEBUG] Falling back to default path: $QT_DIR"
 fi
 
 # --------------------- 构建配置 ---------------------

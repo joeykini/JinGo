@@ -68,8 +68,11 @@ jobs:
           arch: "clang_64"
           cache: true
 
-      - name: Set Qt Root Dir
-        run: echo "QT_ROOT_DIR=${{ steps.install-qt.outputs.qt_root }}" >> $GITHUB_ENV
+      - name: Debug Qt Environment
+        run: |
+          echo "Qt6_DIR: $Qt6_DIR"
+          echo "QT_ROOT_DIR: $QT_ROOT_DIR"
+          env | grep -E "Qt|QT" || true
 
       - name: Apply White Label Config
         run: |
@@ -122,8 +125,11 @@ jobs:
           tools: "tools_mingw1310"
           cache: true
 
-      - name: Set Qt Root Dir
-        run: echo "QT_ROOT_DIR=${{ steps.install-qt.outputs.qt_root }}" >> $GITHUB_ENV
+      - name: Debug Qt Environment
+        run: |
+          echo "Qt6_DIR: $env:Qt6_DIR"
+          echo "QT_ROOT_DIR: $env:QT_ROOT_DIR"
+          Get-ChildItem Env: | Where-Object { $_.Name -like "*Qt*" -or $_.Name -like "*QT*" }
 
       - name: Apply White Label Config
         shell: bash
@@ -190,8 +196,11 @@ jobs:
           arch: "gcc_64"
           cache: true
 
-      - name: Set Qt Root Dir
-        run: echo "QT_ROOT_DIR=${{ steps.install-qt.outputs.qt_root }}" >> $GITHUB_ENV
+      - name: Debug Qt Environment
+        run: |
+          echo "Qt6_DIR: $Qt6_DIR"
+          echo "QT_ROOT_DIR: $QT_ROOT_DIR"
+          env | grep -E "Qt|QT" || true
 
       - name: Apply White Label Config
         run: |
@@ -258,8 +267,11 @@ jobs:
           arch: "android_arm64_v8a"
           cache: true
 
-      - name: Set Qt Root Dir
-        run: echo "QT_ROOT_DIR=${{ steps.install-qt.outputs.qt_root }}" >> $GITHUB_ENV
+      - name: Debug Qt Environment
+        run: |
+          echo "Qt6_DIR: $Qt6_DIR"
+          echo "QT_ROOT_DIR: $QT_ROOT_DIR"
+          env | grep -E "Qt|QT" || true
 
       - name: Apply White Label Config
         run: |
@@ -308,8 +320,11 @@ jobs:
           target: "ios"
           cache: true
 
-      - name: Set Qt Root Dir
-        run: echo "QT_ROOT_DIR=${{ steps.install-qt.outputs.qt_root }}" >> $GITHUB_ENV
+      - name: Debug Qt Environment
+        run: |
+          echo "Qt6_DIR: $Qt6_DIR"
+          echo "QT_ROOT_DIR: $QT_ROOT_DIR"
+          env | grep -E "Qt|QT" || true
 
       - name: Apply White Label Config
         run: |

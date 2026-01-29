@@ -27,20 +27,38 @@ set -o pipefail  # 管道中的错误也触发退出
 # 优先使用环境变量 QT_MACOS_PATH 或 Qt6_DIR，否则使用默认值
 # 本地开发请修改下面的默认路径，或设置环境变量
 # 示例: "/Users/yourname/Qt/6.8.0/macos" 或 "/opt/Qt/6.8.0/macos"
+
+echo "[DEBUG] Initializing Qt path detection..."
+echo "[DEBUG] Environment: GITHUB_ACTIONS=${GITHUB_ACTIONS:-false}, Qt6_DIR=${Qt6_DIR:-not set}, QT_MACOS_PATH=${QT_MACOS_PATH:-not set}, QT_ROOT_DIR=${QT_ROOT_DIR:-not set}"
+
 if [[ -n "${QT_MACOS_PATH:-}" ]]; then
-    : # 使用已设置的 QT_MACOS_PATH
+    echo "[DEBUG] Using provided QT_MACOS_PATH: $QT_MACOS_PATH"
 elif [[ -n "${Qt6_DIR:-}" ]]; then
     # Qt6_DIR 可能指向 cmake 目录，我们需要获取其所属的 qt 安装根目录
+    # 路径通常是: .../6.8.1/macos/lib/cmake/Qt6
     if [[ "$Qt6_DIR" == *"/lib/cmake/Qt6" ]]; then
         QT_MACOS_PATH="${Qt6_DIR%/lib/cmake/Qt6}"
-    else
+        echo "[DEBUG] Derived QT_MACOS_PATH from Qt6_DIR (cmake subdir): $QT_MACOS_PATH"
+    elif [[ "$Qt6_DIR" == *"/macos" ]]; then
         QT_MACOS_PATH="$Qt6_DIR"
+        echo "[DEBUG] Using Qt6_DIR as QT_MACOS_PATH: $QT_MACOS_PATH"
+    else
+        # 尝试看看 Qt6_DIR 目录下是否有 bin/qmake
+        if [[ -d "$Qt6_DIR/macos" ]]; then
+            QT_MACOS_PATH="$Qt6_DIR/macos"
+            echo "[DEBUG] Found macos subdir in Qt6_DIR: $QT_MACOS_PATH"
+        else
+            QT_MACOS_PATH="$Qt6_DIR"
+            echo "[DEBUG] Using Qt6_DIR directly as fallback: $QT_MACOS_PATH"
+        fi
     fi
 elif [[ "$GITHUB_ACTIONS" == "true" ]] && [[ -n "${QT_ROOT_DIR:-}" ]]; then
     QT_MACOS_PATH="${QT_ROOT_DIR}/macos"
+    echo "[DEBUG] Derived QT_MACOS_PATH from QT_ROOT_DIR: $QT_MACOS_PATH"
 else
     # 默认路径（仅用于本地开发 fallback）
     QT_MACOS_PATH="/Volumes/mindata/Applications/Qt/6.10.0/macos"
+    echo "[DEBUG] Falling back to default path: $QT_MACOS_PATH"
 fi
 
 # --------------------- 脚本初始化 ---------------------

@@ -27,8 +27,12 @@ set -e  # 遇到错误立即退出
 # 本地开发请修改下面的默认路径，或设置环境变量
 # macOS 示例: "/Users/yourname/Qt/6.8.0"
 # Linux 示例: "/opt/Qt/6.8.0"
+
+echo "[DEBUG] Initializing Qt Android path detection..."
+echo "[DEBUG] Environment: GITHUB_ACTIONS=${GITHUB_ACTIONS:-false}, Qt6_DIR=${Qt6_DIR:-not set}, QT_BASE_PATH=${QT_BASE_PATH:-not set}, QT_ROOT_DIR=${QT_ROOT_DIR:-not set}"
+
 if [[ -n "${QT_BASE_PATH:-}" ]]; then
-    : # 使用已设置的 QT_BASE_PATH
+    echo "[DEBUG] Using provided QT_BASE_PATH: $QT_BASE_PATH"
 elif [[ -n "${Qt6_DIR:-}" ]]; then
     # Qt6_DIR 指向 android_arm64_v8a/lib/cmake/Qt6，我们需要获取其所属的 qt 安装根目录的父目录
     # 路径结构: <ROOT>/6.10.0/android_arm64_v8a/lib/cmake/Qt6
@@ -36,20 +40,30 @@ elif [[ -n "${Qt6_DIR:-}" ]]; then
         # 移除 /lib/cmake/Qt6 (结果是 <ROOT>/6.10.0/android_arm64_v8a)
         # 然后取其父目录 (结果是 <ROOT>/6.10.0)
         QT_BASE_PATH="$(dirname "${Qt6_DIR%/lib/cmake/Qt6}")"
+        echo "[DEBUG] Derived QT_BASE_PATH from Qt6_DIR (cmake subdir): $QT_BASE_PATH"
+    elif [[ "$Qt6_DIR" == *"/android_"* ]]; then
+        QT_BASE_PATH="$(dirname "$Qt6_DIR")"
+        echo "[DEBUG] Derived QT_BASE_PATH from Qt6_DIR (arch dir): $QT_BASE_PATH"
     else
         QT_BASE_PATH="$Qt6_DIR"
+        echo "[DEBUG] Using Qt6_DIR directly as QT_BASE_PATH: $QT_BASE_PATH"
     fi
 elif [[ "$GITHUB_ACTIONS" == "true" ]] && [[ -n "${QT_ROOT_DIR:-}" ]]; then
     QT_BASE_PATH="$QT_ROOT_DIR"
+    echo "[DEBUG] Derived QT_BASE_PATH from QT_ROOT_DIR: $QT_BASE_PATH"
 else
     # 默认路径（仅用于本地开发 fallback）
     QT_BASE_PATH="/Volumes/mindata/Applications/Qt/6.10.0"
+    echo "[DEBUG] Falling back to default path: $QT_BASE_PATH"
 fi
 
 # --------------------- Android SDK/NDK 配置 ---------------------
 # Android SDK 路径 (优先使用环境变量)
 if [[ -z "${ANDROID_SDK_ROOT:-}" ]]; then
     ANDROID_SDK_ROOT="/Volumes/mindata/Library/Android/aarch64/sdk"
+    echo "[DEBUG] Falling back to default ANDROID_SDK_ROOT: $ANDROID_SDK_ROOT"
+else
+    echo "[DEBUG] Using ANDROID_SDK_ROOT: $ANDROID_SDK_ROOT"
 fi
 # Android NDK 版本 (优先使用环境变量)
 if [[ -z "${ANDROID_NDK_VERSION:-}" ]]; then
